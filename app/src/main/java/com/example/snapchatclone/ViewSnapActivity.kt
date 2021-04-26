@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
@@ -14,7 +17,7 @@ import java.net.URL
 
 class ViewSnapActivity : AppCompatActivity() {
     var messageTextView: TextView? = null
-
+    var mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,5 +54,12 @@ class ViewSnapActivity : AppCompatActivity() {
                 return null
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        intent.getStringExtra("snapKey")?.let { FirebaseDatabase.getInstance().getReference().child("users").child(mAuth?.currentUser!!.uid).child("snaps").child(it).removeValue() }
+        intent.getStringExtra("imageName")?.let { FirebaseStorage.getInstance().getReference().child("Images").child(it).delete() }
     }
 }

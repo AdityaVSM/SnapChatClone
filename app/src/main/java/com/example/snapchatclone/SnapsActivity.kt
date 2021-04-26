@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
@@ -36,7 +37,17 @@ class SnapsActivity : AppCompatActivity() {
                 arrayAdapter.notifyDataSetChanged()
             }
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-            override fun onChildRemoved(snapshot: DataSnapshot) {}
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                var index = 0;
+                for(snap:DataSnapshot in snaps){
+                    if(snap.key == snapshot.key){
+                        snaps.removeAt(index)
+                        emailList.removeAt(index)
+                    }
+                    index++;
+                }
+                arrayAdapter.notifyDataSetChanged()
+            }
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
             override fun onCancelled(error: DatabaseError) {}
         })
