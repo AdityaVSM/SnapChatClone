@@ -3,7 +3,7 @@
     package="com.example.snapchatclone">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,14 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SnapChatClone">
-        <activity android:name=".ChoseUserActivity"></activity>
+        <activity android:name=".ViewSnapActivity"></activity>
+        <activity android:name=".ChoseUserActivity" />
         <activity android:name=".chooseUserActivity" />
         <activity android:name=".CreateSnapActivity" />
         <activity android:name=".SnapsActivity" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

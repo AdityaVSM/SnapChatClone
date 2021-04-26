@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +19,7 @@ class SnapsActivity : AppCompatActivity() {
     val mAuth = FirebaseAuth.getInstance()
     var snapsListView:ListView ?= null;
     var emailList:ArrayList<String> = ArrayList();
+    var snaps:ArrayList<DataSnapshot> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,20 +32,26 @@ class SnapsActivity : AppCompatActivity() {
         FirebaseDatabase.getInstance().getReference().child("users").child(mAuth?.currentUser!!.uid).child("snaps").addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 emailList.add(snapshot.child("from").value as String)
+                snaps.add(snapshot)
                 arrayAdapter.notifyDataSetChanged()
-
             }
-
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
             override fun onChildRemoved(snapshot: DataSnapshot) {}
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(error: DatabaseError) {}
         })
+        snapsListView?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            FirebaseDatabase.getInstance().getReference()
+            val snapshot = snaps.get(position)
+            var intent = Intent(this, ViewSnapActivity::class.java)
+
+            intent.putExtra("imageName",snapshot.child("imageName").value as String)
+            intent.putExtra("imageUrl",snapshot.child("imageUrl").value as String)
+            intent.putExtra("message",snapshot.child("message").value as String)
+            intent.putExtra("snapKey",snapshot.key)
+
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?):Boolean{

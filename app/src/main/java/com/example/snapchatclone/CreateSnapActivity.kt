@@ -5,20 +5,20 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 import java.util.*
-import java.util.jar.Manifest
+
 
 class CreateSnapActivity : AppCompatActivity() {
 
@@ -36,10 +36,10 @@ class CreateSnapActivity : AppCompatActivity() {
 
     fun getPhoto(){
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent,1)
+        startActivityForResult(intent, 1)
     }
 
-    fun chooseImage(view:View){
+    fun chooseImage(view: View){
         if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         }else{
@@ -53,15 +53,15 @@ class CreateSnapActivity : AppCompatActivity() {
 
         if(requestCode == 1 && resultCode == Activity.RESULT_OK && data != null){
             try{
-                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,selectedImage)
+                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
                 createSnapImageView?.setImageBitmap(bitmap)
-            }catch (e:Exception){
+            }catch (e: Exception){
                 e.printStackTrace()
             }
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if(requestCode == 1){
             if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getPhoto()
@@ -81,20 +81,25 @@ class CreateSnapActivity : AppCompatActivity() {
         //FirebaseStorage.getInstance().getReference().child("Images").child(imageName)
 
         var uploadTask = FirebaseStorage.getInstance().getReference().child("Images").child(imageName).putBytes(data)
-        uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
-            Toast.makeText(this,"Upload failes",Toast.LENGTH_SHORT).show()
-        }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
-            val downloadUrl = taskSnapshot.getStorage().downloadUrl
-            Log.i("Download url : ",downloadUrl.toString())
+        uploadTask.addOnSuccessListener { taskSnapshot ->
+            if (taskSnapshot.metadata != null) {
+                if (taskSnapshot.metadata!!.reference != null) {
+                    val result: Task<Uri> = taskSnapshot.storage.downloadUrl
+                    result.addOnSuccessListener { uri ->
+                        val imageUrl: String = uri.toString()
+                        Log.i("Download url : ", imageUrl.toString())
 
-            val intent = Intent(this,ChoseUserActivity::class.java)
-            intent.putExtra("imageUrl",downloadUrl.toString())
-            intent.putExtra("imageName",imageName)
-            intent.putExtra("message",messageEditText?.text.toString())
-            startActivity(intent)
+                        val intent = Intent(this, ChoseUserActivity::class.java)
+                        intent.putExtra("imageUrl", imageUrl)
+                        intent.putExtra("imageName", imageName)
+                        intent.putExtra("message", messageEditText?.text.toString())
+                        startActivity(intent)
+                    }
+                }
+            }
+        }.addOnFailureListener {
+            // Handle unsuccessful uploads
+            Toast.makeText(this, "Upload failed", Toast.LENGTH_SHORT).show()
         }
 
 
