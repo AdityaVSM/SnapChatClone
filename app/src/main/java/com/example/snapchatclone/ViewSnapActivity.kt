@@ -5,8 +5,10 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -29,8 +31,11 @@ class ViewSnapActivity : AppCompatActivity() {
         messageTextView?.text = intent.getStringExtra("message")
 
         var url = intent.getStringExtra("imageUrl")
+        Glide.with(this).load(url).dontAnimate().dontTransform().into(snapsImageView)
+         //   Glide.with(.getContext()).load(url).placeholder(R.drawable.default_profile).dontAnimate().into(view);
+    }
 
-        val task = ImageDownoader()
+        /*val task = ImageDownoader()
         val myImage: Bitmap
         try {
             myImage = task.execute(intent.getStringExtra("imageUrl")).get()
@@ -54,7 +59,7 @@ class ViewSnapActivity : AppCompatActivity() {
                 return null
             }
         }
-    }
+    }*/
 
     override fun onBackPressed() {
         super.onBackPressed()
