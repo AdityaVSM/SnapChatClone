@@ -19,8 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 class SnapsActivity : AppCompatActivity() {
     val mAuth = FirebaseAuth.getInstance()
     var snapsListView:ListView ?= null;
-    //var emailList:ArrayList<String> = ArrayList();
-    var userNameList:ArrayList<String> = ArrayList()
+    var emailList:ArrayList<String> = ArrayList();
     var snaps:ArrayList<DataSnapshot> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +27,12 @@ class SnapsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_snaps)
 
         snapsListView = findViewById(R.id.snapListView)
-        val arrayAdapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,userNameList);
+        val arrayAdapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,emailList);
         snapsListView?.adapter = arrayAdapter
 
         FirebaseDatabase.getInstance().getReference().child("users").child(mAuth?.currentUser!!.uid).child("snaps").addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                userNameList.add(snapshot.child("from").value as String)
+                emailList.add(snapshot.child("from").value as String)
                 snaps.add(snapshot)
                 arrayAdapter.notifyDataSetChanged()
             }
@@ -43,7 +42,7 @@ class SnapsActivity : AppCompatActivity() {
                 for(snap:DataSnapshot in snaps){
                     if(snap.key == snapshot.key){
                         snaps.removeAt(index)
-                        userNameList.removeAt(index)
+                        emailList.removeAt(index)
                     }
                     index++;
                 }
