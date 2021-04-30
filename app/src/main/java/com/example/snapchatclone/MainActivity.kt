@@ -12,7 +12,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
-    var userNameEditText:EditText?=null
     var emailEditText : EditText?=null
     var passwordEditText : EditText?=null
     val mAuth = FirebaseAuth.getInstance()
@@ -22,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         getSupportActionBar()?.setTitle("Login/signup");
         setContentView(R.layout.activity_main)
 
-        userNameEditText = findViewById(R.id.userNameEditText)
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText)
 
@@ -35,24 +33,23 @@ class MainActivity : AppCompatActivity() {
         //Check if we can login the user
 
         mAuth.signInWithEmailAndPassword(emailEditText?.text.toString(), passwordEditText?.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    login();
-                } else {
-                    // Sign up user
-                    mAuth.createUserWithEmailAndPassword(emailEditText?.text.toString(), passwordEditText?.text.toString())
-                        .addOnCompleteListener(this) { task ->
-                            if(task.isSuccessful){
-                                //Add to database
-                                FirebaseDatabase.getInstance().getReference().child("users").child(task.result!!.user?.uid!!).child("email").setValue(emailEditText?.text.toString())
-                                FirebaseDatabase.getInstance().getReference().child("users").child(task.result!!.user?.uid!!).child("userName").setValue(userNameEditText?.text.toString())
-                                login()
-                            }else{
-                                Toast.makeText(this,"Login failed. Try again", Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        login();
+                    } else {
+                        // Sign up user
+                        mAuth.createUserWithEmailAndPassword(emailEditText?.text.toString(), passwordEditText?.text.toString())
+                                .addOnCompleteListener(this) { task ->
+                                    if(task.isSuccessful){
+                                        //Add to database
+                                        FirebaseDatabase.getInstance().getReference().child("users").child(task.result!!.user?.uid!!).child("email").setValue(emailEditText?.text.toString())
+                                        login()
+                                    }else{
+                                        Toast.makeText(this,"Login failed. Try again", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                    }
                 }
-            }
     }
 
     fun login(){
