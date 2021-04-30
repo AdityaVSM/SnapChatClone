@@ -29,6 +29,7 @@ class CreateSnapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_snap)
+        getSupportActionBar()?.setTitle("Create snap");
 
         createSnapImageView = findViewById(R.id.createSnapImageView)
         messageEditText = findViewById(R.id.messageEditText)

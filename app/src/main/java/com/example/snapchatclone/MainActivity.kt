@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getSupportActionBar()?.setTitle("Login/signup");
         setContentView(R.layout.activity_main)
 
         userNameEditText = findViewById(R.id.userNameEditText)

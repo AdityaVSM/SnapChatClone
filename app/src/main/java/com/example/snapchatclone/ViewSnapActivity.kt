@@ -24,6 +24,7 @@ class ViewSnapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_snap)
+        getSupportActionBar()?.setTitle("Snaps");
 
         messageTextView = findViewById(R.id.messageTextView)
         var snapsImageView: ImageView = findViewById(R.id.snapImageView)

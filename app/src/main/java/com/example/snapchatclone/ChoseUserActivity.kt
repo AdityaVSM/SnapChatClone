@@ -21,6 +21,7 @@ class ChoseUserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chose_user)
+        getSupportActionBar()?.setTitle("Choose user");
 
         chooseUserListView = findViewById(R.id.chooseUserListView)
         val arrayAdapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,userNameArrayList)
