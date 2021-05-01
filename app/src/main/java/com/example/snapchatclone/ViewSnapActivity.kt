@@ -33,6 +33,8 @@ class ViewSnapActivity : AppCompatActivity() {
 
 
 
+
+
         
         messageTextView?.text = intent.getStringExtra("message")
 
