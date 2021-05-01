@@ -43,6 +43,9 @@ class ChoseUserActivity : AppCompatActivity() {
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
             override fun onCancelled(error: DatabaseError) {}
         })
+
+
+        
         chooseUserListView?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val snapMap: Any = mapOf("from" to currentUser, "imageName" to intent.getStringExtra("imageName"), "imageUrl" to intent.getStringExtra("imageUrl"), "message" to intent.getStringExtra("message")) as Any
             FirebaseDatabase.getInstance().getReference().child("users").child(keys.get(position)).child("snaps").push().setValue(snapMap)
