@@ -11,6 +11,7 @@ import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -79,8 +80,13 @@ class SnapsActivity : AppCompatActivity() {
             val intent = Intent(this,CreateSnapActivity::class.java)
             startActivity(intent)
         }else if(item?.itemId == R.id.logout){
-            mAuth.signOut()
-            finish()
+            AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener {
+                    val intent2 = Intent(this,MainActivity::class.java)
+                    startActivity(intent2)
+                }
+
         }
 
         return super.onOptionsItemSelected(item)

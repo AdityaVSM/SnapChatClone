@@ -14,9 +14,11 @@ import com.google.firebase.ktx.Firebase
 
 class ChoseUserActivity : AppCompatActivity() {
     var chooseUserListView: ListView? = null
-    var emailsArrayList:ArrayList<String> = ArrayList()
+    //var emailsArrayList:ArrayList<String> = ArrayList()
     var userNameArrayList:ArrayList<String> = ArrayList()
     var keys:ArrayList<String> = ArrayList()
+    val user = FirebaseAuth.getInstance().currentUser
+    val currentUser = FirebaseAuth.getInstance().currentUser.displayName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +43,11 @@ class ChoseUserActivity : AppCompatActivity() {
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
             override fun onCancelled(error: DatabaseError) {}
         })
+
+
+        
         chooseUserListView?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val snapMap: Any = mapOf("from" to userName, "imageName" to intent.getStringExtra("imageName"), "imageUrl" to intent.getStringExtra("imageUrl"), "message" to intent.getStringExtra("message")) as Any
+            val snapMap: Any = mapOf("from" to currentUser, "imageName" to intent.getStringExtra("imageName"), "imageUrl" to intent.getStringExtra("imageUrl"), "message" to intent.getStringExtra("message")) as Any
             FirebaseDatabase.getInstance().getReference().child("users").child(keys.get(position)).child("snaps").push().setValue(snapMap)
 
             val intent = Intent(this,SnapsActivity::class.java)
