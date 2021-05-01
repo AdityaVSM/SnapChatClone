@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
@@ -32,8 +33,11 @@ class ViewSnapActivity : AppCompatActivity() {
         messageTextView?.text = intent.getStringExtra("message")
 
         var url = intent.getStringExtra("imageUrl")
-        Glide.with(this).load(url).dontAnimate().dontTransform().into(snapsImageView)
+        //Glide.with(this).load(url).dontAnimate().dontTransform().into(snapsImageView)
          //   Glide.with(.getContext()).load(url).placeholder(R.drawable.default_profile).dontAnimate().into(view);
+        Picasso.get()
+            .load(url)
+            .into(snapsImageView);
     }
 
         /*val task = ImageDownoader()
