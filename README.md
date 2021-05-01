@@ -1,4 +1,4 @@
-</img><h1 align="center"> <img height=50 width=50 src="https://o.remove.bg/downloads/e53ebfab-b7ca-4302-be4b-75ab7d59aa1c/logo2-removebg-preview.png"> SnapChat Clone</h1>
+</img><h1 align="center"> <img height=50 width=50 src="https://1000logos.net/wp-content/uploads/2017/08/snapchat-logo-transparent.png"> SnapChat Clone</h1>
 
 <br>
 <p>
