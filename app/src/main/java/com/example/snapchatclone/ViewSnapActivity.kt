@@ -74,5 +74,6 @@ class ViewSnapActivity : AppCompatActivity() {
 
         intent.getStringExtra("snapKey")?.let { FirebaseDatabase.getInstance().getReference().child("users").child(mAuth?.currentUser!!.uid).child("snaps").child(it).removeValue() }
         intent.getStringExtra("imageName")?.let { FirebaseStorage.getInstance().getReference().child("Images").child(it).delete() }
+        finish()
     }
 }
