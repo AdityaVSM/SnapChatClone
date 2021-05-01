@@ -29,13 +29,10 @@ class ViewSnapActivity : AppCompatActivity() {
         getSupportActionBar()?.setTitle("Snaps");
 
         messageTextView = findViewById(R.id.messageTextView)
+        
         var snapsImageView: ImageView = findViewById(R.id.snapImageView)
 
 
-
-
-
-        
         messageTextView?.text = intent.getStringExtra("message")
 
         var url = intent.getStringExtra("imageUrl")
