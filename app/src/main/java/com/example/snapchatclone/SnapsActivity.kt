@@ -94,6 +94,8 @@ class SnapsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         mAuth.signOut()
+        val intent2 :Intent = Intent(this,MainActivity::class.java)
+        startActivity(intent2)
         super.onBackPressed()
     }
 
