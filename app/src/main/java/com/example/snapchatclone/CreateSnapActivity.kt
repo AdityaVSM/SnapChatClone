@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -25,6 +26,7 @@ class CreateSnapActivity : AppCompatActivity() {
     var createSnapImageView:ImageView? = null
     var messageEditText:EditText? = null
     val imageName = UUID.randomUUID().toString()+ ".jpg";
+    lateinit var captureImageButton:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,13 @@ class CreateSnapActivity : AppCompatActivity() {
 
         createSnapImageView = findViewById(R.id.createSnapImageView)
         messageEditText = findViewById(R.id.messageEditText)
+        captureImageButton = findViewById(R.id.captureImageButton)
+
+        captureImageButton.setOnClickListener {
+
+            val intent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent2, 2)
+        }
     }
 
     fun getPhoto(){
@@ -50,16 +59,21 @@ class CreateSnapActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val selectedImage = data!!.data
-
-        if(requestCode == 1 && resultCode == Activity.RESULT_OK && data != null){
-            try{
-                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
-                createSnapImageView?.setImageBitmap(bitmap)
-            }catch (e: Exception){
-                e.printStackTrace()
+        if(requestCode == 1){
+            val selectedImage = data!!.data
+            if(resultCode == Activity.RESULT_OK && data != null){
+                try{
+                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
+                    createSnapImageView?.setImageBitmap(bitmap)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
+        }else if(requestCode == 2){
+            val bitmap = data!!.extras!!["data"] as Bitmap?
+            createSnapImageView?.setImageBitmap(bitmap)
         }
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

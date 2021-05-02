@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SnapChatClone"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".ImageCapture"></activity>
+        <activity android:name=".SignUpActivity" />
         <activity android:name=".ViewSnapActivity" />
         <activity android:name=".ChoseUserActivity" />
         <activity android:name=".CreateSnapActivity" />
