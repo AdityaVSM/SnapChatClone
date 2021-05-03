@@ -26,7 +26,7 @@ class CreateSnapActivity : AppCompatActivity() {
     var createSnapImageView:ImageView? = null
     var messageEditText:EditText? = null
     val imageName = UUID.randomUUID().toString()+ ".jpg";
-    lateinit var captureImageButton:Button
+    var cameraImageView:ImageView?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +35,12 @@ class CreateSnapActivity : AppCompatActivity() {
 
         createSnapImageView = findViewById(R.id.createSnapImageView)
         messageEditText = findViewById(R.id.messageEditText)
-        captureImageButton = findViewById(R.id.captureImageButton)
 
-        captureImageButton.setOnClickListener {
 
-            val intent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent2, 2)
-        }
+    }
+    fun camera(v:View){
+        val intent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent2, 2)
     }
 
     fun getPhoto(){
@@ -116,8 +115,5 @@ class CreateSnapActivity : AppCompatActivity() {
             // Handle unsuccessful uploads
             Toast.makeText(this, "Upload failed", Toast.LENGTH_SHORT).show()
         }
-
-
-
     }
 }
