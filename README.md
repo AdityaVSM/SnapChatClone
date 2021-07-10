@@ -11,14 +11,14 @@
   - [x] Send snaps(Choose from Device storage)
   - [x] Send small message along with snap
   - [x] View Snap
-  - [x] Automatically delete snap after view
+  - [x] Automatically delete snap after viewing
   
   <br>
   
   ### :sunny: Recomended updates:
-  - [ ] Good UI
+  - [ ] Improve UI
   - [ ] Increase upload speed of images
-  - [ ] add texting feature
+  - [ ] add messaging feature
 
   
 <br>
